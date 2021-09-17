@@ -1,0 +1,16 @@
+
+  {
+    "name": "blogger",
+    "version": "1.0.0",
+    "scripts": {
+      "build": "npm run setup:server",
+      "setup:app": "npm run setup:server && npm run setup:client",
+      "setup:client": "cd blogger.client && npm i",
+      "setup:server": "cd blogger && npm i",
+      "start": "node blogger/index.js"
+    },
+    "engines": {
+      "node": "^14.17.0"
+    }
+  }
+  
