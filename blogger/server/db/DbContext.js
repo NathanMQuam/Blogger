@@ -1,15 +1,11 @@
 import mongoose from 'mongoose'
 import AccountSchema from '../models/Account'
-import BoardSchema from '../models/Board'
-import ListSchema from '../models/List'
-import TaskSchema from '../models/Task'
+import BlogSchema from '../models/Blog'
 import CommentSchema from '../models/Comment'
 
 class DbContext {
   Account = mongoose.model('Account', AccountSchema);
-  Board = mongoose.model('Board', BoardSchema)
-  List = mongoose.model('List', ListSchema)
-  Task = mongoose.model('Task', TaskSchema)
+  Blog = mongoose.model('Blog', BlogSchema)
   Comment = mongoose.model('Comment', CommentSchema)
 }
 
