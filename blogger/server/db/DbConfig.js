@@ -12,7 +12,7 @@ mongoose.connection.on('connection', () => {
   logger.log('DbConnection Successful')
 })
 
-export class DbConnection {
+export default class DbConnection {
   static async connect(connectionstring = process.env.CONNECTION_STRING || '') {
     const status = 0
     try {

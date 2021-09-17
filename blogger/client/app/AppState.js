@@ -1,13 +1,10 @@
-import { dev } from './env.js'
 import { EventEmitter } from './Utils/EventEmitter.js'
 import { isValidProp } from './Utils/isValidProp.js'
 
 class AppState extends EventEmitter {
   user = {}
   account = {}
-  /** @type {import('./Models/Value').Value[]} */
   values = []
-  socketData = []
 }
 
 export const ProxyState = new Proxy(new AppState(), {
@@ -22,8 +19,3 @@ export const ProxyState = new Proxy(new AppState(), {
     return true
   }
 })
-
-if (dev) {
-  // @ts-ignore
-  window.ProxyState = ProxyState
-}

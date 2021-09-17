@@ -7,7 +7,7 @@ import { dbContext } from '../db/DbContext'
  * @param {any} account
  * @param {any} user
  */
-async function createAccountIfNeeded(account, user) {
+async function createAccountIfNeeded (account, user) {
   if (!account) {
     user._id = user.id
     account = await dbContext.Account.create({
@@ -23,7 +23,7 @@ async function createAccountIfNeeded(account, user) {
  * @param {any} account
  * @param {any} user
  */
-async function mergeSubsIfNeeded(account, user) {
+async function mergeSubsIfNeeded (account, user) {
   if (!account.subs.includes(user.sub)) {
     // @ts-ignore
     account.subs.push(user.sub)
@@ -34,9 +34,12 @@ async function mergeSubsIfNeeded(account, user) {
  * Restricts changes to the body of the account object
  * @param {any} body
  */
-function sanitizeBody(body) {
+function sanitizeBody (body) {
   const writable = {
     name: body.name,
+    phones: body.phones,
+    addresses: body.addresses,
+    notes: body.notes,
     picture: body.picture
   }
   return writable
@@ -48,7 +51,7 @@ class AccountService {
     * limits to first 20 without offset
     * @param {string} str
    */
-  async findProfiles(str = '') {
+  async findProfiles (str = '') {
     const filter = new RegExp(str, 'ig')
     const q = {
       $match: {
@@ -67,7 +70,7 @@ class AccountService {
    * Returns a user profile from the email if one exists
    * @param {string} email
    */
-  async findProfile(email) {
+  async findProfile (email) {
     return await dbContext.Account.findOne({ email })
       .select('name email picture')
   }
@@ -80,7 +83,7 @@ class AccountService {
    * Adds sub of Auth0 account to account if not currently on account
    * @param {any} user
    */
-  async getAccount(user) {
+  async getAccount (user) {
     let account = await dbContext.Account.findOne({
       _id: user.id
     })
@@ -94,7 +97,7 @@ class AccountService {
    *  @param {any} user Auth0 user object
    *  @param {any} body Updates to apply to user object
    */
-  async updateAccount(user, body) {
+  async updateAccount (user, body) {
     const update = sanitizeBody(body)
     const account = await dbContext.Account.findOneAndUpdate(
       { _id: user.id },
@@ -104,4 +107,6 @@ class AccountService {
     return account
   }
 }
+
+// TODO: accountEdit function goes here
 export const accountService = new AccountService()

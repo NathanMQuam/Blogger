@@ -13,26 +13,27 @@
   "author": "Codeworks",
   "license": "ISC",
   "dependencies": {
-    "@bcwdev/auth0provider": "^1.0.7",
+    "@bcwdev/auth0provider": "^1.0.3",
+    "axios": "^0.21.1",
     "cors": "^2.8.5",
-    "dotenv": "^9.0.2",
+    "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
-    "helmet": "^4.6.0",
-    "mongoose": "^5.12.10",
-    "socket.io": "4.1.2"
+    "helmet": "^4.4.1",
+    "mongoose": "^5.11.12",
+    "socket.io": "2.3.0"
   },
   "engines": {
     "node": "^14.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "bootstrap": "^5.1.0",
-    "eslint": "^7.26.0",
+    "bootstrap": "^4.6.0",
+    "eslint": "^7.18.0",
     "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.23.2",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.1.0",
-    "sass": "^1.32.13"
+    "eslint-plugin-promise": "^4.2.1",
+    "sass": "^1.32.4"
   }
 }

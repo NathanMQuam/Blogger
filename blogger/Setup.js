@@ -1,15 +1,15 @@
+/* eslint-disable node/no-path-concat */
 import fs from 'fs'
-import path from 'path'
 import BaseController from './server/utils/BaseController'
 import { logger } from './server/utils/Logger'
 
 export class Paths {
   static get Public() {
-    return path.join(__dirname, 'client')
+    return `${__dirname}/client/`
   }
 
   static get Server() {
-    return path.join(__dirname, 'server')
+    return `${__dirname}/server`
   }
 
   static get Controllers() {
@@ -29,9 +29,6 @@ export function RegisterControllers(router) {
       if (!controllerName.endsWith('.js')) return
       const fileHandler = await import(Paths.Controllers + '/' + controllerName)
       let ControllerClass = fileHandler[controllerName.slice(0, -3)]
-      if (!ControllerClass) {
-        throw new Error(`${controllerName} The exported class does not match the filename`)
-      }
       if (ControllerClass.default) {
         ControllerClass = ControllerClass.default
       }
@@ -59,9 +56,6 @@ export async function RegisterSocketHandlers() {
       if (!handlerName.endsWith('.js')) { return }
       const fileHandler = await import(directory + '/' + handlerName)
       let HandlerClass = fileHandler[handlerName.slice(0, -3)]
-      if (!HandlerClass) {
-        throw new Error(`${handlerName} The exported class does not match the filename`)
-      }
       if (HandlerClass.default) {
         HandlerClass = HandlerClass.default
       }
@@ -77,8 +71,15 @@ export async function RegisterSocketHandlers() {
 }
 
 export async function attachHandlers(io, socket, user, profile) {
-  if (socket._handlers && user && profile) {
-    return socket._handlers.forEach(handler => handler.attachUser(user, profile))
-  }
-  socket._handlers = HANDLERS.map(Handler => new Handler(io, socket))
+  HANDLERS.forEach(Handler => {
+    try {
+      const handler = new Handler(io, socket, user, profile)
+      logger.log('Attached', handler)
+    } catch (e) {
+      logger.error(
+        '[SOCKET_HANDLER_ERROR] unable to attach socket handler, potential duplication, review mount path and controller class name, and see error below',
+        e
+      )
+    }
+  })
 }

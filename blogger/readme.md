@@ -45,12 +45,12 @@ In your auth0 dashboard be sure to enable RBAC or add in this custom rule
  * note auth0 will strip any non namespaced properties
  */
 function extendUserInfo(user, context, callback) {
+    const uuid = require('uuid@3.3.2');
     const namespace = 'https://YOURDOMAINHERE.auth0.com';
     context.idToken = context.idToken || {};
     context.authorization = context.authorization || {};
-    user.app_metadata = user.app_metadata || { };
-    user.app_metadata.new = user.app_metadata.id ? false : true;
-    user.app_metadata.id = user.app_metadata.id || generateId();
+    user.app_metadata = user.app_metadata || { new: true };
+    user.app_metadata.id = user.app_metadata.id || uuid();
 
     for (const key in user.app_metadata) {
         context.idToken[`${namespace}/${key}`] = user.app_metadata[key];
@@ -69,13 +69,7 @@ function extendUserInfo(user, context, callback) {
         })
         .catch(function (err) {
             callback(err);
-        });  
-  
-  function generateId() {
-    let timestamp = (new Date().getTime() / 1000 | 0).toString(16);
-    return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, () => (
-      Math.random() * 16 | 0).toString(16)).toLowerCase();
-	}
+        });
 }
 ```
 
@@ -145,17 +139,3 @@ express
   // requires permission to reach this point
   .delete("/:id", this.deleteById);
 ```
-
-## Legal Overview
-
-The content under the CodeWorks®, LLC Organization and all of the individual repos are soley intended for use by CodeWorks Instruction to deliver Educational content to CodeWorks Students.
-
----
-
-## Copyright
-
-© CodeWorks® LLC, 2021. Unauthorized use and/or duplication of this material without express and written permission from CodeWorks, LLC is strictly prohibited.
-
-
-<img src="https://bcw.blob.core.windows.net/public/img/7815839041305055" width="125">
-

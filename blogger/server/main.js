@@ -1,25 +1,24 @@
 import express from 'express'
-import { socketProvider } from './SocketProvider'
-import { Startup } from './Startup'
-import { DbConnection } from './db/DbConfig'
+import Socket from './services/SocketService'
+import Startup from './Startup'
+import DbContext from './db/DbConfig'
 import { logger } from './utils/Logger'
-import { createServer } from 'http'
 
 // create server & socketServer
 const app = express()
+const socketServer = require('http').createServer(app)
+const io = require('socket.io')(socketServer)
 const port = process.env.PORT || 3000
 
-const httpServer = createServer(app)
+// Establish Socket
+Socket.setIO(io)
 Startup.ConfigureGlobalMiddleware(app)
 Startup.ConfigureRoutes(app)
 
-// Establish Socket
-socketProvider.initialize(httpServer)
-
 // Connect to Atlas MongoDB
-DbConnection.connect()
+DbContext.connect()
 
 // Start Server
-httpServer.listen(port, () => {
+socketServer.listen(port, () => {
   logger.log(`[SERVING ON PORT: ${port}]`)
 })

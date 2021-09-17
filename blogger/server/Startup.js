@@ -1,20 +1,27 @@
+import bp from 'body-parser'
 import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
-import { json } from 'body-parser'
 import { RegisterControllers, Paths, RegisterSocketHandlers } from '../Setup'
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { logger } from './utils/Logger'
-import { AccountValidator } from './utils/AccountValidator'
 
-export class Startup {
+export default class Startup {
   static ConfigureGlobalMiddleware(app) {
     // NOTE Configure and Register Middleware
-    Startup.configureCors(app)
+    const whitelist = ['http://localhost:8080']
+    const corsOptions = {
+      origin: function(origin, callback) {
+        const originIsWhitelisted = whitelist.indexOf(origin) !== -1
+        callback(null, originIsWhitelisted)
+      },
+      credentials: true
+    }
     app.use(helmet({
       contentSecurityPolicy: false
     }))
-    app.use(json({ limit: '50mb' }))
+    app.use(cors(corsOptions))
+    app.use(bp.json({ limit: '50mb' }))
 
     // NOTE Configures auth0 middleware that is used throughout controllers
     Auth0Provider.configure({
@@ -24,31 +31,13 @@ export class Startup {
     })
   }
 
-  static configureCors(app) {
-    const allowedDomains = []
-    const corsOptions = {
-      origin(origin, callback) {
-        if (process.env.NODE_ENV === 'dev') {
-          return callback(null, true)
-        }
-        const originIsWhitelisted = allowedDomains.indexOf(origin) !== -1
-        callback(null, originIsWhitelisted)
-      },
-      credentials: true
-    }
-
-    app.use(cors(corsOptions))
-  }
-
   static ConfigureRoutes(app) {
     const router = express.Router()
-    app.use(AccountValidator)
     RegisterControllers(router)
     RegisterSocketHandlers()
     app.use(router)
 
     app.use('', express.static(Paths.Public))
-
     Startup.registerErrorHandlers(app)
   }
 
