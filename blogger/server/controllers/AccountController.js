@@ -1,6 +1,6 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { accountService } from '../services/AccountService'
-import { boardsService } from '../services/BoardsService.js'
+import { blogsService } from '../services/BlogsService.js'
 import BaseController from '../utils/BaseController'
 
 export class AccountController extends BaseController {
@@ -40,7 +40,7 @@ export class AccountController extends BaseController {
 
   async getUserBlogs(req, res, next) {
     try {
-      console.log(await boardsService.getBoardsByUserId())
+      console.log(await blogsService.getBlogsByUserId())
     } catch (error) {
       next(error)
     }

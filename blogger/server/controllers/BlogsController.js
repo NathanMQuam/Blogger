@@ -1,5 +1,5 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
-import { boardsService } from '../services/BoardsService.js'
+import { blogsService } from '../services/BlogsService.js'
 import BaseController from '../utils/BaseController.js'
 
 export class BlogsController extends BaseController {
@@ -22,7 +22,7 @@ export class BlogsController extends BaseController {
   async createBlog(req, res, next) {
     try {
       req.body.creatorId = req.userInfo.id
-      res.send(await boardsService.create(req.body))
+      res.send(await blogsService.create(req.body))
     } catch (error) {
       next(error)
     }
@@ -30,7 +30,7 @@ export class BlogsController extends BaseController {
 
   async getBlogs(req, res, next) {
     try {
-      return res.send(await boardsService.getUserBoards(req.userInfo.id))
+      return res.send(await blogsService.getUserBlogs(req.userInfo.id))
     } catch (error) {
       next(error)
     }
@@ -38,7 +38,7 @@ export class BlogsController extends BaseController {
 
   async getBlogById(req, res, next) {
     try {
-      return res.send(await boardsService.getBoardById(req.params.id))
+      return res.send(await blogsService.getBlogById(req.params.id))
     } catch (error) {
       next(error)
     }
@@ -47,7 +47,7 @@ export class BlogsController extends BaseController {
   async editBlog(req, res, next) {
     try {
       req.body.creatorId = req.userInfo.id
-      res.send(await boardsService.editBoard(req.params.id, req.userInfo.id, req.body))
+      res.send(await blogsService.editBlog(req.params.id, req.userInfo.id, req.body))
     } catch (error) {
       next(error)
     }
@@ -55,7 +55,7 @@ export class BlogsController extends BaseController {
 
   async deleteBlog(req, res, next) {
     try {
-      return res.send(await boardsService.deleteBoard(req.params.id, req.userInfo.id))
+      return res.send(await blogsService.deleteBlog(req.params.id, req.userInfo.id))
     } catch (error) {
       next(error)
     }
