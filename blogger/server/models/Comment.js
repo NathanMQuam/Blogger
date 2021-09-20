@@ -3,9 +3,9 @@ const Schema = mongoose.Schema
 const ObjectId = mongoose.SchemaTypes.ObjectId
 
 const Comment = new Schema({
-  name: { type: String, required: true },
+  body: { type: String, required: true },
   creatorId: { type: String, ref: 'Profile', required: true },
-  taskId: { type: ObjectId, ref: 'Task', required: true }
+  blogId: { type: ObjectId, ref: 'Blogs', required: true }
 },
 { timestamps: true, toJSON: { virtuals: true } }
 )

@@ -4,8 +4,10 @@ const Schema = mongoose.Schema
 const Board = new Schema({
   name: { type: String, required: true },
   creatorId: { type: String, ref: 'Profile', required: true },
-  description: { type: String, required: false },
-  collaborators: [{ type: String, required: false }]
+  title: { type: String, required: true },
+  body: { type: String, required: true },
+  published: { type: Boolean, required: true, default: false },
+  tags: [{ type: String, required: false }]
 },
 { timestamps: true, _id: true, toJSON: { virtuals: true } })
 
