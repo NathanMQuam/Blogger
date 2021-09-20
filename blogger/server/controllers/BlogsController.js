@@ -2,22 +2,24 @@ import { Auth0Provider } from '@bcwdev/auth0provider'
 import { boardsService } from '../services/BoardsService.js'
 import BaseController from '../utils/BaseController.js'
 
-export class BoardsController extends BaseController {
+export class BlogsController extends BaseController {
   constructor() {
-    super('api/boards')
+    super('api/blogs')
     this.router
-    // .get('/:id/lists', this.getListsByBoardId)
+      .get('/', this.getBlogs)
+      .get('/:id', this.getBlogById)
+      .get('/:id/comments', this.getCommentsByBlogId)
       .use(Auth0Provider.getAuthorizedUserInfo)
-      .get('/:id', this.getBoardById)
-      .get('/', this.getUserBoards)
-      .get('/:id/lists', this.getListsByBoardId)
-      .post('', this.createBoard)
-      .put('/:id', this.editBoard)
-      .delete('/:id', this.deleteBoard)
-      .get('/:id/tasks', this.getTasksByBoardId)
+      .post('', this.createBlog)
+      .put('/:id', this.editBlog)
+      .delete('/:id', this.deleteBlog)
   }
 
-  async createBoard(req, res, next) {
+  getCommentsByBlogId(arg0, getCommentsByBlogId) {
+    throw new Error('Method not implemented.')
+  }
+
+  async createBlog(req, res, next) {
     try {
       req.body.creatorId = req.userInfo.id
       res.send(await boardsService.create(req.body))
@@ -26,7 +28,7 @@ export class BoardsController extends BaseController {
     }
   }
 
-  async getUserBoards(req, res, next) {
+  async getBlogs(req, res, next) {
     try {
       return res.send(await boardsService.getUserBoards(req.userInfo.id))
     } catch (error) {
@@ -34,7 +36,7 @@ export class BoardsController extends BaseController {
     }
   }
 
-  async getBoardById(req, res, next) {
+  async getBlogById(req, res, next) {
     try {
       return res.send(await boardsService.getBoardById(req.params.id))
     } catch (error) {
@@ -42,7 +44,7 @@ export class BoardsController extends BaseController {
     }
   }
 
-  async editBoard(req, res, next) {
+  async editBlog(req, res, next) {
     try {
       req.body.creatorId = req.userInfo.id
       res.send(await boardsService.editBoard(req.params.id, req.userInfo.id, req.body))
@@ -51,25 +53,9 @@ export class BoardsController extends BaseController {
     }
   }
 
-  async deleteBoard(req, res, next) {
+  async deleteBlog(req, res, next) {
     try {
       return res.send(await boardsService.deleteBoard(req.params.id, req.userInfo.id))
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  async getListsByBoardId(req, res, next) {
-    try {
-      return res.send(await listsService.getListsByBoardId({ boardId: req.params.id }))
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  async getTasksByBoardId(req, res, next) {
-    try {
-      return res.send(await tasksService.getTasksByBoardId({ boardId: req.params.id }))
     } catch (error) {
       next(error)
     }

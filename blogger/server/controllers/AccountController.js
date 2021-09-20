@@ -25,7 +25,6 @@ export class AccountController extends BaseController {
     throw new Error('Method not implemented.')
   }
 
-  // TODO:
   getAccountById(req, res, next) {
     throw new Error('Method not implemented.')
   }

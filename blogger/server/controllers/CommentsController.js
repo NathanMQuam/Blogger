@@ -8,8 +8,8 @@ export class CommentsController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('/', this.createComment)
-      .delete('/:id', this.deleteComment)
       .put('/:id', this.editComment)
+      .delete('/:id', this.deleteComment)
   }
 
   async createComment(req, res, next) {
