@@ -46,6 +46,10 @@ function sanitizeBody(body) {
 }
 
 class AccountService {
+  getAccountById(req) {
+    throw new Error('Method not implemented.')
+  }
+
   /**
     * Returns a list user profiles from a query search of name or email likeness
     * limits to first 20 without offset

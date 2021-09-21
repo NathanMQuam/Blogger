@@ -1,6 +1,7 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { accountService } from '../services/AccountService'
 import { blogsService } from '../services/BlogsService.js'
+import { commentsService } from '../services/CommentsService.js'
 import BaseController from '../utils/BaseController'
 
 export class AccountController extends BaseController {
@@ -17,16 +18,31 @@ export class AccountController extends BaseController {
       .put('/', this.editAccount)
   }
 
-  getCommentsByUserId(req, res, next) {
-    throw new Error('Method not implemented.')
+  async getCommentsByUserId(req, res, next) {
+    try {
+      const comments = await commentsService.getCommentsByUserId(req)
+      res.send(comments)
+    } catch (error) {
+      next(error)
+    }
   }
 
-  getBlogsByUserId(req, res, next) {
-    throw new Error('Method not implemented.')
+  async getBlogsByUserId(req, res, next) {
+    try {
+      const blogs = await blogsService.getBlogsByUserId(req)
+      res.send(blogs)
+    } catch (error) {
+      next(error)
+    }
   }
 
-  getAccountById(req, res, next) {
-    throw new Error('Method not implemented.')
+  async getAccountById(req, res, next) {
+    try {
+      const account = await accountService.getAccountById(req)
+      res.send(account)
+    } catch (error) {
+      next(error)
+    }
   }
 
   async getUserAccount(req, res, next) {
@@ -40,7 +56,8 @@ export class AccountController extends BaseController {
 
   async getUserBlogs(req, res, next) {
     try {
-      console.log(await blogsService.getBlogsByUserId())
+      const blogs = await blogsService.getUserBlogs(req.userInfo)
+      res.send(blogs)
     } catch (error) {
       next(error)
     }
@@ -48,7 +65,8 @@ export class AccountController extends BaseController {
 
   async getUserComments(req, res, next) {
     try {
-      //
+      const comments = await commentsService.getUserComments(req.userInfo)
+      res.send(comments)
     } catch (error) {
       next(error)
     }
@@ -56,7 +74,8 @@ export class AccountController extends BaseController {
 
   async editAccount(req, res, next) {
     try {
-      //
+      const account = await accountService.updateAccount(req)
+      res.send(account)
     } catch (error) {
       next(error)
     }

@@ -15,8 +15,12 @@ export class BlogsController extends BaseController {
       .delete('/:id', this.deleteBlog)
   }
 
-  getCommentsByBlogId(arg0, getCommentsByBlogId) {
-    throw new Error('Method not implemented.')
+  getCommentsByBlogId(req, res, next) {
+    try {
+      throw new Error('Method not implemented.')
+    } catch (error) {
+      next(error)
+    }
   }
 
   async createBlog(req, res, next) {

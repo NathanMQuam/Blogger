@@ -2,6 +2,14 @@ import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 
 class CommentsService {
+  getCommentsByUserId(req) {
+    throw new Error('Method not implemented.')
+  }
+
+  getUserComments(userInfo) {
+    throw new Error('Method not implemented.')
+  }
+
   async createComment(body) {
     return await dbContext.Comment.create(body)
   }
