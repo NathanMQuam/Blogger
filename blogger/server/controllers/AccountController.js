@@ -20,7 +20,7 @@ export class AccountController extends BaseController {
 
   async getCommentsByUserId(req, res, next) {
     try {
-      const comments = await commentsService.getCommentsByUserId(req)
+      const comments = await commentsService.getCommentsByUserId(req.params.id)
       res.send(comments)
     } catch (error) {
       next(error)
@@ -29,7 +29,7 @@ export class AccountController extends BaseController {
 
   async getBlogsByUserId(req, res, next) {
     try {
-      const blogs = await blogsService.getBlogsByUserId(req)
+      const blogs = await blogsService.getUserBlogs(req.params.id)
       res.send(blogs)
     } catch (error) {
       next(error)
@@ -38,7 +38,7 @@ export class AccountController extends BaseController {
 
   async getAccountById(req, res, next) {
     try {
-      const account = await accountService.getAccountById(req)
+      const account = await accountService.getAccountById(req.params.id)
       res.send(account)
     } catch (error) {
       next(error)

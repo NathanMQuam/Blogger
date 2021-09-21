@@ -46,8 +46,8 @@ function sanitizeBody(body) {
 }
 
 class AccountService {
-  getAccountById(req) {
-    throw new Error('Method not implemented.')
+  async getAccountById(req) {
+    return await dbContext.Account.findById(req)
   }
 
   /**
@@ -112,5 +112,4 @@ class AccountService {
   }
 }
 
-// TODO: accountEdit function goes here
 export const accountService = new AccountService()
