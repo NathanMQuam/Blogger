@@ -1,5 +1,6 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { blogsService } from '../services/BlogsService.js'
+import { commentsService } from '../services/CommentsService.js'
 import BaseController from '../utils/BaseController.js'
 
 export class BlogsController extends BaseController {
@@ -15,9 +16,10 @@ export class BlogsController extends BaseController {
       .delete('/:id', this.deleteBlog)
   }
 
-  getCommentsByBlogId(req, res, next) {
+  async getCommentsByBlogId(req, res, next) {
     try {
-      throw new Error('Method not implemented.')
+      const comments = await commentsService.getCommentsByBlogId(req)
+      res.send(comments)
     } catch (error) {
       next(error)
     }
@@ -34,7 +36,7 @@ export class BlogsController extends BaseController {
 
   async getBlogs(req, res, next) {
     try {
-      return res.send(await blogsService.getUserBlogs(req.userInfo.id))
+      return res.send(await blogsService.getBlogs())
     } catch (error) {
       next(error)
     }

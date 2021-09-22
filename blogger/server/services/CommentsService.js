@@ -2,19 +2,19 @@ import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 
 class CommentsService {
-  getCommentsByUserId(req) {
-    throw new Error('Method not implemented.')
+  async getCommentsByUserId(userId) {
+    return await dbContext.Comment.find({ creatorId: userId })
   }
 
-  getUserComments(userInfo) {
-    throw new Error('Method not implemented.')
+  async getUserComments(userInfo) {
+    return await dbContext.Comment.find({ creatorId: userInfo })
   }
 
   async createComment(body) {
     return await dbContext.Comment.create(body)
   }
 
-  async getCommentsByTaskId(id) {
+  async getCommentsByBlogId(id) {
     return await dbContext.Comment.find(id).populate('listId', 'name')
   }
 
