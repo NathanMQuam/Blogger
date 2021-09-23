@@ -1,12 +1,23 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
+
+function sanitizeBody(body) {
+  const writable = {
+    title: body.title,
+    body: body.body,
+    tags: [...body.tags]
+  }
+  return writable
+}
+
 class BlogsService {
   async getBlogs() {
     return await dbContext.Blog.find()
   }
 
   async create(body) {
-    return await dbContext.Blog.create(body)
+    const newBlog = sanitizeBody(body)
+    return await dbContext.Blog.create(newBlog)
   }
 
   async getUserBlogs(userId) {
@@ -18,7 +29,8 @@ class BlogsService {
   }
 
   async editBlog(id, userId, body) {
-    const post = await dbContext.Blog.findOneAndUpdate({ _id: id, creatorId: userId }, body, { new: true })
+    const sanitizedBlog = sanitizeBody(body)
+    const post = await dbContext.Blog.findOneAndUpdate({ _id: id, creatorId: userId }, sanitizedBlog, { new: true })
     if (!post) {
       throw new BadRequest('You are not the CREATOR or BAD ID.')
     }
