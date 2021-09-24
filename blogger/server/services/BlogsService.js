@@ -3,9 +3,10 @@ import { BadRequest } from '../utils/Errors'
 
 function sanitizeBody(body) {
   const writable = {
+    creatorId: body.creatorId,
     title: body.title,
     body: body.body,
-    tags: [...body.tags]
+    tags: body.tags
   }
   return writable
 }
