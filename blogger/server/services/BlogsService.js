@@ -35,6 +35,7 @@ class BlogsService {
     if (!post) {
       throw new BadRequest('You are not the CREATOR or BAD ID.')
     }
+    return post
   }
 
   async deleteBlog(id, userId) {

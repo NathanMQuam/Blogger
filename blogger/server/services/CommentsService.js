@@ -30,6 +30,7 @@ class CommentsService {
     if (!post) {
       throw new BadRequest('You are not the CREATOR or BAD ID.')
     }
+    return post
   }
 }
 
