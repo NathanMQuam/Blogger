@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const Account = new Schema(
   {
-    subs: [{ type: String, unique: true }],
+    subs: [{ type: String }],
     _id: { type: String, required: true },
     email: { type: String, lowercase: true, unique: true },
     name: { type: String, required: true },
