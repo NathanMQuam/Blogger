@@ -3,12 +3,15 @@ import Socket from './services/SocketService'
 import Startup from './Startup'
 import DbContext from './db/DbConfig'
 import { logger } from './utils/Logger'
+const cors = require('cors')
 
 // create server & socketServer
 const app = express()
 const socketServer = require('http').createServer(app)
 const io = require('socket.io')(socketServer)
 const port = process.env.PORT || 3000
+
+app.use(cors())
 
 // Establish Socket
 Socket.setIO(io)
