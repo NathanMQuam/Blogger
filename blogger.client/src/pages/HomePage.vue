@@ -1,17 +1,33 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-1">
-      <img src="https://bcw.blob.core.windows.net/public/img/8600856373152463" alt="CodeWorks Logo" class="rounded-circle elevation-4">
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
+  <div class="container">
+    <div class="row" v-for="blog in state.blogs" :key="blog.id" :blog="blog">
+      <div class="col">
+        {{ blog.title }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+/* eslint-disable no-console */
+import { computed, reactive } from 'vue'
+import { AppState } from '../AppState.js'
+import { blogsListService } from '../services/BlogsListService'
+// import Blog from '../components/Blog'
+// import CreateBlog from '../components/CreateBlog'
 export default {
-  name: 'Home'
+  name: 'Home',
+  setup() {
+    console.log('Home Page script')
+    console.log(computed(() => AppState.blogs))
+    const state = reactive({
+      blogs: computed(() => AppState.blogs)
+    })
+    blogsListService.getBlogs()
+    return {
+      state
+    }
+  }
 }
 </script>
 
