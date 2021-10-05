@@ -49,7 +49,10 @@ export class BlogsController extends BaseController {
 
   async getBlogById(req, res, next) {
     try {
-      return res.send(await blogsService.getBlogById(req.params.id))
+      const blog = await blogsService.getBlogById(req.params.id)
+      // @ts-ignore
+      blog.creator = blog.creatorId
+      return res.send(blog)
     } catch (error) {
       next(error)
     }

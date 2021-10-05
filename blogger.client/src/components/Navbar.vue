@@ -22,11 +22,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
-        <li>
+        <!-- <li>
           <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
             About
           </router-link>
-        </li>
+        </li> -->
       </ul>
       <span class="navbar-text">
         <button
