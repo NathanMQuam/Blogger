@@ -6,14 +6,16 @@ function sanitizeBody(body) {
     creatorId: body.creatorId,
     title: body.title,
     body: body.body,
-    tags: body.tags
+    tags: body.tags,
+    published: body.published
   }
   return writable
 }
 
 class BlogsService {
   async getBlogs() {
-    return await dbContext.Blog.find()
+    const blogs = await dbContext.Blog.find({ published: true }).populate('creatorId')
+    return blogs
   }
 
   async create(body) {
@@ -22,16 +24,16 @@ class BlogsService {
   }
 
   async getUserBlogs(userId) {
-    return await dbContext.Blog.find({ creatorId: userId })
+    return await dbContext.Blog.find({ creatorId: userId }).populate('creatorId')
   }
 
   async getBlogById(query) {
-    return await dbContext.Blog.findById(query)
+    return await dbContext.Blog.findById(query).populate('creatorId')
   }
 
   async editBlog(id, userId, body) {
     const sanitizedBlog = sanitizeBody(body)
-    const post = await dbContext.Blog.findOneAndUpdate({ _id: id, creatorId: userId }, sanitizedBlog, { new: true })
+    const post = await dbContext.Blog.findOneAndUpdate({ _id: id, creatorId: userId }, sanitizedBlog, { new: true }).populate('creatorId')
     if (!post) {
       throw new BadRequest('You are not the CREATOR or BAD ID.')
     }
