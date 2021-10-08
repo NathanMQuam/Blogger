@@ -2,10 +2,10 @@
   <div class="blogPage w-100">
     <div class="container" v-if="state.blog">
       <div class="row">
-        <div class="col-2">
+        <div class="col-2" v-if="state.blog.creator">
           <img :src="state.blog.creator.picture" class="img-fluid">
         </div>
-        <div class="col-4">
+        <div class="col-4" v-if="state.blog.creator">
           {{ state.blog.creator.name }}
         </div>
       </div>
