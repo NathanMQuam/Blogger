@@ -29,6 +29,7 @@ class BlogsListService {
     try {
       AppState.comments = {}
       const res = await api.get(`api/blogs/${id}/comments`)
+      console.log('Comments:\n', res.data)
       AppState.comments = res.data
     } catch (error) {
       console.error(error)

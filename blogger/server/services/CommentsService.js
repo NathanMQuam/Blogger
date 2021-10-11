@@ -15,7 +15,7 @@ class CommentsService {
   }
 
   async getCommentsByBlogId(id) {
-    return await dbContext.Comment.find(id).populate('listId', 'name')
+    return await dbContext.Comment.find({ blogId: id })
   }
 
   async deleteComment(id, userId) {
