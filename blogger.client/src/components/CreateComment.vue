@@ -23,7 +23,7 @@ export default {
     const state = reactive({
       user: computed(() => AppState.user),
       newComment: {
-        blog: AppState.activeBlog._id,
+        blogId: AppState.activeBlog._id,
         creator: AppState.user.name
       }
     })
@@ -32,7 +32,7 @@ export default {
       async createComment() {
         try {
           // FIXME: Bad request?
-          state.newComment.blog = AppState.activeBlog._id
+          state.newComment.blogId = AppState.activeBlog._id
           state.newComment.creator = AppState.user.name
           await blogsListService.createComment(state.newComment)
         } catch (error) {

@@ -15,7 +15,7 @@ class CommentsService {
   }
 
   async getCommentsByBlogId(id) {
-    return await dbContext.Comment.find({ blogId: id })
+    return await dbContext.Comment.find({ blogId: id }).populate('creator')
   }
 
   async deleteComment(id, userId) {

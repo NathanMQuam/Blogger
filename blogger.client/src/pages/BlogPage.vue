@@ -77,6 +77,7 @@ export default {
       blogsListService.getCommentsByBlogId(route.params.id)
       console.log('Blog:', state.blog)
       console.log('User:', state.user)
+      console.log('Comments:', state.comments)
     })
     // onBeforeRouteLeave((to, from, next) => {
     //   // if confirmed and if any of the input fields have a value

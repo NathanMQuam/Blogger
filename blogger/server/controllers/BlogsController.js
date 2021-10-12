@@ -37,10 +37,6 @@ export class BlogsController extends BaseController {
   async getBlogs(req, res, next) {
     try {
       const blogs = await blogsService.getBlogs()
-      blogs.forEach(b => {
-      // @ts-ignore
-        b.creator = b.creatorId
-      })
       return res.send(blogs)
     } catch (error) {
       next(error)
@@ -50,8 +46,6 @@ export class BlogsController extends BaseController {
   async getBlogById(req, res, next) {
     try {
       const blog = await blogsService.getBlogById(req.params.id)
-      // @ts-ignore
-      blog.creator = blog.creatorId
       return res.send(blog)
     } catch (error) {
       next(error)

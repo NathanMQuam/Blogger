@@ -14,7 +14,7 @@ function sanitizeBody(body) {
 
 class BlogsService {
   async getBlogs() {
-    const blogs = await dbContext.Blog.find({ published: true }).populate('creatorId')
+    const blogs = await dbContext.Blog.find({ published: true }).populate('creator')
     return blogs
   }
 
@@ -24,11 +24,11 @@ class BlogsService {
   }
 
   async getUserBlogs(userId) {
-    return await dbContext.Blog.find({ creatorId: userId }).populate('creatorId')
+    return await dbContext.Blog.find({ creatorId: userId }).populate('creator')
   }
 
   async getBlogById(query) {
-    return await dbContext.Blog.findById(query).populate('creatorId')
+    return await dbContext.Blog.findById(query).populate('creator')
   }
 
   async editBlog(id, userId, body) {
