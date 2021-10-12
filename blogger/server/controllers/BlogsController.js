@@ -18,7 +18,7 @@ export class BlogsController extends BaseController {
 
   async getCommentsByBlogId(req, res, next) {
     try {
-      const comments = await commentsService.getCommentsByBlogId(req)
+      const comments = await commentsService.getCommentsByBlogId(req.params.id)
       res.send(comments)
     } catch (error) {
       next(error)
