@@ -11,7 +11,14 @@ class CommentsService {
   }
 
   async createComment(body) {
-    return await dbContext.Comment.create(body)
+    const blog = await dbContext.Blog.findById(body.blogId)
+    // @ts-ignore
+    if (blog.published || blog.creatorId === body.creatorId) {
+      const comment = await dbContext.Comment.create(body)
+      return comment
+    } else {
+      throw new BadRequest('You are not the CREATOR or BAD ID.')
+    }
   }
 
   async getCommentsByBlogId(id) {
